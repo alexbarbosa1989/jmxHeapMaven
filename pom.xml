@@ -9,6 +9,15 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     
+    <!--add jboss-client.jar as maven dependecy-->
+    <dependencies>
+    	<dependency>
+    		<groupId>org.jboss.eap</groupId>
+    		<artifactId>wildfly-client-all</artifactId>
+    		<version>7.3.4.GA-redhat-00003</version>
+    	</dependency>
+    </dependencies>
+  
     <build>
         <plugins>
             <plugin>
@@ -33,11 +42,4 @@
         	</plugin>
     	</plugins>
     </build>
-    <dependencies>
-    	<dependency>
-    		<groupId>org.jboss.eap</groupId>
-    		<artifactId>wildfly-client-all</artifactId>
-    		<version>7.3.4.GA-redhat-00003</version>
-    	</dependency>
-    </dependencies>
 </project>
