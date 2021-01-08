@@ -103,7 +103,6 @@ public class jmxTest {
 		getNonHeapMemoryUsage();
 		System.out.println("----------Operating System Usage---------");
 		getOSDetails();
-		connector.close();
 	}
 	
 
