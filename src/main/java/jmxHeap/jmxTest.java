@@ -1,8 +1,11 @@
 package jmxHeap;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
@@ -17,7 +20,7 @@ public class jmxTest {
 	private static JMXConnector connector;
 	private static int mem = (int) Math.pow(1024,2);
 
-	public static void Connection(String hostname, String port) throws IOException {
+	public static void Connection(String hostname, String port, String user, String pass) throws IOException {
 		// EAP 7x | Wildfly 10+
 		String urlString = "service:jmx:remote+http://" + hostname + ":" + port;
 		JMXServiceURL serviceURL = new JMXServiceURL(urlString);
@@ -25,8 +28,8 @@ public class jmxTest {
 		// credential user should previously exists in EAP/Wildfly environment (using
 		// $JBOSS-HOME/bin/add-user.sh)
 		String[] credentials = new String[2];
-		credentials[0] = "admin";
-		credentials[1] = "admin";
+		credentials[0] = user;
+		credentials[1] = pass;
 		map.put(JMXConnector.CREDENTIALS, credentials);
 
 		// passing server credentials
@@ -92,17 +95,37 @@ public class jmxTest {
 	}
 
 	public static void main(String[] args) throws Exception {
-		//Get a connection to the WildFly/EAP MBean server
-		String hostname =  "127.0.0.1";
-		String port =  "9990";
-		//to get the connection the jboss-client.jar should exists in the CLASSPATH
-		Connection(hostname, port);
-		System.out.println("----------HEAP Memory Usage---------");
-		getHeapMemoryUsage();
-		System.out.println("----------Non-HEAP Memory Usage---------");
-		getNonHeapMemoryUsage();
-		System.out.println("----------Operating System Usage---------");
-		getOSDetails();
+		//Load properties
+		Properties prop = new Properties();
+		InputStream input = null;
+		
+		try {
+			input = new FileInputStream("config.properties");
+			prop.load(input);
+			
+			String hostname =  prop.getProperty("hostname");
+			String port =  prop.getProperty("port");
+			String user = prop.getProperty("user");
+			String pass = prop.getProperty("pass");
+			//to get the connection the jboss-client.jar should exists in the CLASSPATH
+			Connection(hostname, port, user, pass);
+			System.out.println("----------HEAP Memory Usage---------");
+			getHeapMemoryUsage();
+			System.out.println("----------Non-HEAP Memory Usage---------");
+			getNonHeapMemoryUsage();
+			System.out.println("----------Operating System Usage---------");
+			getOSDetails();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 	
 
