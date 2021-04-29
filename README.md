@@ -18,4 +18,4 @@ mvn clean compile assembly:assembly
 java -jar target/jmxTest-0.0.1-SNAPSHOT.jar
 ~~~
 
-NOTE: The main class maps the connection parameters from config.properties files. You must change them according to your particular environment attributes
+NOTE: The main class maps the connection parameters from config.properties file. You must change them according to your particular environment attributes
