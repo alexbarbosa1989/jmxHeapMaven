@@ -20,10 +20,10 @@ public class jmxTest {
 	private static JMXConnector connector;
 	private static int mem = (int) Math.pow(1024,2);
 
-	public static void Connection(String hostname, String port, String user, String pass) throws IOException {
+	public static void Connection(String hostname, String port, String user, String pass, String urlString) throws IOException {
 		// EAP 7x | Wildfly 10+
-		String urlString = "service:jmx:remote+http://" + hostname + ":" + port;
-		JMXServiceURL serviceURL = new JMXServiceURL(urlString);
+		String urlStringConnection = urlString + "://"  + hostname + ":" + port;
+		JMXServiceURL serviceURL = new JMXServiceURL(urlStringConnection);
 		Map<String, String[]> map = new HashMap();
 		// credential user should previously exists in EAP/Wildfly environment (using
 		// $JBOSS-HOME/bin/add-user.sh)
@@ -107,8 +107,9 @@ public class jmxTest {
 			String port =  prop.getProperty("port");
 			String user = prop.getProperty("user");
 			String pass = prop.getProperty("pass");
+                        String urlString = prop.getProperty("urlstring");
 			//to get the connection the jboss-client.jar should exists in the CLASSPATH
-			Connection(hostname, port, user, pass);
+			Connection(hostname, port, user, pass, urlString);
 			System.out.println("----------HEAP Memory Usage---------");
 			getHeapMemoryUsage();
 			System.out.println("----------Non-HEAP Memory Usage---------");
@@ -127,6 +128,3 @@ public class jmxTest {
 			}
 		}
 	}
-	
-
-}
