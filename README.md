@@ -3,7 +3,7 @@
 1. Clone the project:
 
 ~~~
-git clone https://github.com/alexbarbosa1989/jmxHeap
+git clone https://github.com/alexbarbosa1989/jmxHeap.git
 ~~~
 
 2. Compile it:
