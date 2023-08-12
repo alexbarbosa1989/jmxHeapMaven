@@ -14,7 +14,7 @@
     	<dependency>
     		<groupId>org.jboss.eap</groupId>
     		<artifactId>wildfly-client-all</artifactId>
-    		<version>7.4.6.GA-redhat-00002</version>
+    		<version>7.4.12.GA-redhat-00003</version>
     	</dependency>
     </dependencies>
   
